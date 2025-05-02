@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import mx.itson.testcase.entities.Paciente;
-import mx.itson.testcase.persistence.Conexion.DatabaseConnection;
+import mx.itson.testcase.persistence.Conexion;
 
 /**
  *
@@ -18,7 +18,7 @@ import mx.itson.testcase.persistence.Conexion.DatabaseConnection;
 public class PacienteRepositorio {
 
     public boolean existePaciente(String correo) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
+        try (Connection conn = Conexion.getConnection()) {
             String query = "SELECT COUNT(*) FROM pacientes WHERE correo = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, correo);
@@ -33,7 +33,7 @@ public class PacienteRepositorio {
     }
 
     public void guardarPaciente(Paciente paciente) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
+        try (Connection conn = Conexion.getConnection()) {
             String query = "INSERT INTO pacientes (nombre, correo, contrasena, telefono, edad) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, paciente.getNombre());

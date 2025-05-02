@@ -5,6 +5,7 @@
 package mx.itson.testcase.business;
 
 import mx.itson.testcase.entities.Paciente;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -46,11 +47,19 @@ public class SistemaRegistro {
             return "Error: Debes ser mayor de 18 años.";
         }
 
+        // Email Validation Regex
+        if (!correo.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
+            return "Error: El correo electrónico no es válido.";
+        }
+
         if (pacienteRepositorio.existePaciente(correo)) {
             return "Error: El correo ya está registrado.";
         }
 
-        Paciente nuevoPaciente = new Paciente(nombre, correo, contrasena, telefono, edad);
+        // Hash password before storing it
+        String hashedPassword = BCrypt.hashpw(contrasena, BCrypt.gensalt());
+        
+        Paciente nuevoPaciente = new Paciente(nombre, correo, hashedPassword, telefono, edad);
         pacienteRepositorio.guardarPaciente(nuevoPaciente);
         correoService.enviarCorreoConfirmacion(correo);
 

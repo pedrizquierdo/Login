@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            text-align: center;
+            padding-top: 80px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 40px;
+            display: inline-block;
+        }
+        .avatar {
+            border-radius: 50%;
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img th:src="${#authentication.principal.attributes['picture']}" class="avatar" alt="Foto de perfil"/>
+        <h1 th:text="'¡Hola, ' + ${#authentication.principal.attributes['name']} + '!'">¡Hola!</h1>
+        <p th:text="${#authentication.principal.attributes['email']}">Correo electrónico</p>
+        <a href="/logout">Cerrar sesión</a>
+    </div>
+</body>
+</html>
