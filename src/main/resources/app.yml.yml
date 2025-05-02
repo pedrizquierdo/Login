@@ -4,16 +4,15 @@ spring:
       client:
         registration:
           google:
-            client-id: 55118757867-1luk6vhq4e6pfo8mrppfnab9ed5jgrmt.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+            client-id: 55118757867-iviub3r4l71c6jtuulkgsae604urlti0.apps.googleusercontent.com
+            client-secret: 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
             scope:
               - email
               - profile
-              
         provider:
           google:
             authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
             token-uri: https://oauth2.googleapis.com/token
-            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+
 
