@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 /**
  *
  * @author pedrizquierdo
@@ -22,14 +23,20 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/", "/login**").permitAll()
+                .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2
-                .defaultSuccessUrl("/loginSuccess", true)
+                .defaultSuccessUrl("/oauth2/callback/google", true)
+                .authorizationEndpoint()
+                    .baseUri("/oauth2/authorization")
+                .and()
+                .redirectionEndpoint()
+                    .baseUri("/oauth2/callback/*")
+            )
+            .logout(logout -> logout
+                .logoutSuccessUrl("https://www.google.com")
             );
         return http.build();
     }
-    
-    
 }

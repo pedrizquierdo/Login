@@ -4,16 +4,22 @@
  */
 package mx.itson.testcase.business;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import mx.itson.testcase.entities.Paciente;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author pedrizquierdo
  */
+@Service
 public class SistemaRegistro {
     
-
+    @Autowired
     private PacienteRepositorio pacienteRepositorio;
     private CorreoService correoService;
 
@@ -21,7 +27,11 @@ public class SistemaRegistro {
         this.pacienteRepositorio = new PacienteRepositorio();
         this.correoService = new CorreoService();
     }
-
+    
+    public boolean existePaciente(String correo) {
+        return pacienteRepositorio.existePaciente(correo);
+    }
+    
     public String registrarPaciente(String nombre, String correo, String contrasena, String confirmacionContrasena, String telefono, int edad, boolean aceptaTerminos) {
         if (nombre == null || correo == null || contrasena == null || telefono == null) {
             return "Error: Todos los campos obligatorios deben ser completados.";
@@ -55,6 +65,8 @@ public class SistemaRegistro {
         if (pacienteRepositorio.existePaciente(correo)) {
             return "Error: El correo ya está registrado.";
         }
+        
+        
 
         // Hash password before storing it
         String hashedPassword = BCrypt.hashpw(contrasena, BCrypt.gensalt());
@@ -65,6 +77,17 @@ public class SistemaRegistro {
 
         return "Registro exitoso, ahora puedes iniciar sesión.";
     }
+    @Component
+public class DialogManager {
+
+    public static void showSuccessDialog(String email) {
+        JFrame parent = new JFrame();
+        JOptionPane.showMessageDialog(parent,
+            "Registro exitoso para: " + email,
+            "Registro Completado",
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+}
 }
 
 

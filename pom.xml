@@ -93,10 +93,12 @@
 
     <build>
         <plugins>
-            <!-- Spring Boot Maven Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                <mainClass>com.TestCase.Application</mainClass> 
+            </configuration>
             </plugin>
         </plugins>
     </build>
